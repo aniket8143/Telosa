@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="todo-container">
+        <h1>To-Do List</h1>
+
+        <!-- Add New Todo Form -->
+        <form action="/add" method="post" class="todo-form">
+            <input type="text" name="task" placeholder="Add a new task" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <!-- Todo List -->
+        <ul class="todo-list">
+            <li th:each="todo, iterStat : ${todos}">
+                <div class="todo-item">
+                    <!-- Checkbox to toggle completion -->
+                    <input type="checkbox" th:checked="${todo.completed}" 
+                           th:onchange="'toggle?index=' + ${iterStat.index}">
+                    <span th:text="${todo.task}" class="todo-text" 
+                          th:classappend="${todo.completed ? ' completed' : ''}"></span>
+                    
+                    <!-- Delete button -->
+                    <form action="/delete" method="post" class="delete-form">
+                        <input type="hidden" name="index" th:value="${iterStat.index}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
